@@ -18,12 +18,13 @@ export default {
             username: data.username, 
             first_name: data.first_name, 
             middle_name: data.middle_name,
-            last_name: data.last_name
+            last_name: data.last_name,
+            dob: data.dob
          }
 
-         logger.info("Verification successful")
+         logger.info("Verification successful");
 
-         req.user = user;
+         req.userData = user;
          next();
       })
    }

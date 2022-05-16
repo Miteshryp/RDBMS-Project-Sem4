@@ -1,7 +1,7 @@
 export default {
-   user: "mitesh",
-   host: "localhost",
-   port : 5432,
-   database: "localdb",
-   password: "Micky@123"
+   user: String(process.env.PGUSER),
+   host: String(process.env.PGHOST),
+   port : Number(process.env.PGPORT),
+   database: String(process.env.PGDB),
+   password: String(process.env.PGPASSWORD)
 };

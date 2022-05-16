@@ -24,6 +24,7 @@ export default {
 
   async createProduct(req: Request, res: Response) {
     logger.debug("POST Route");
+    // let userData = req.userData;
     const productDetails = req.body;
 
     // let object = new ProductModel({

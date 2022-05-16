@@ -10,6 +10,7 @@
   "keywords": [],
   "description": "",
   "dependencies": {
+    "@types/pg-format": "^1.0.2",
     "bcrypt": "^5.0.1",
     "dotenv": "^16.0.0",
     "esm": "^3.2.25",

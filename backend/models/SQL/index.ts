@@ -5,6 +5,12 @@ import logger from "node-color-log";
 import poolSettings from "../../utils/poolSettings";
 const pool: Pool = new Pool(poolSettings);
 
+// Models
+import Locations from "./View/Locations";
+import Orders from "./View/Orders"
+import Products from "./View/Products";
+import Users from "./View/Users";
+
 export default {
    
    // Used to execute transactions.
@@ -58,10 +64,10 @@ export default {
       let wasSuccessful = false;
 
       try {
-         let q1 = `DROP TABLE IF EXISTS User`
-         let q2 = `DROP TABLE IF EXISTS Location`
-         let q3 = `DROP TABLE IF EXISTS Product`
-         let q4 = `DROP TABLE IF EXISTS Order`
+         let q1 = Users.getDeleteCommand(); //`DROP TABLE IF EXISTS User`
+         let q2 = Locations.getDeleteCommand(); //`DROP TABLE IF EXISTS Location`
+         let q3 = Products.getDeleteCommand(); //`DROP TABLE IF EXISTS Product`
+         let q4 = Orders.getDeleteCommand(); //`DROP TABLE IF EXISTS Order`
 
          await client.query("BEGIN");
 
@@ -91,46 +97,46 @@ export default {
 
       try {
          
-         let q1 = `CREATE TABLE IF NOT EXISTS Locations ( 
-            location_id INT PRIMARY KEY,
-            address_l1 VARCHAR(50) NOT NULL,
-            address_l2 VARCHAR(30),
-            address_l3 VARCHAR(30),
-            landmark VARCHAR(30), 
-            city VARCHAR(30) NOT NULL, 
-            pincode NUMERIC(6) NOT NULL 
-         )`;
+         let q1 = Locations.getCreateCommand();//`CREATE TABLE IF NOT EXISTS Locations ( 
+         //    location_id INT PRIMARY KEY,
+         //    address_l1 VARCHAR(50) NOT NULL,
+         //    address_l2 VARCHAR(30),
+         //    address_l3 VARCHAR(30),
+         //    landmark VARCHAR(30), 
+         //    city VARCHAR(30) NOT NULL, 
+         //    pincode NUMERIC(6) NOT NULL 
+         // )`;
             
-         let q2 = `CREATE TABLE IF NOT EXISTS Products (
-            product_id INT PRIMARY KEY,
-            name VARCHAR(30) NOT NULL,
-            category VARCHAR(20) NOT NULL,
-            price DECIMAL NOT NULL
-         )`;
+         let q2 = Products.getCreateCommand(); //`CREATE TABLE IF NOT EXISTS Products (
+         //    product_id INT PRIMARY KEY,
+         //    name VARCHAR(30) NOT NULL,
+         //    category VARCHAR(20) NOT NULL,
+         //    price DECIMAL NOT NULL
+         // )`;
          
-         let q3 = `CREATE TABLE IF NOT EXISTS Users (
-            user_id INT PRIMARY KEY NOT NULL,
-            username VARCHAR(30) NOT NULL UNIQUE, 
-            password VARCHAR(50) NOT NULL, 
+         let q3 = Users.getCreateCommand(); // `CREATE TABLE IF NOT EXISTS Users (
+         //    user_id INT PRIMARY KEY NOT NULL,
+         //    username VARCHAR(30) NOT NULL UNIQUE, 
+         //    password VARCHAR(50) NOT NULL, 
              
-            first_name VARCHAR(30) NOT NULL,
-            middle_name VARCHAR(30),
-            last_name VARCHAR(30) NOT NULL,
-            dob DATE, 
+         //    first_name VARCHAR(30) NOT NULL,
+         //    middle_name VARCHAR(30),
+         //    last_name VARCHAR(30) NOT NULL,
+         //    dob DATE, 
 
-            location_fk INT,
-            FOREIGN KEY (location_fk) REFERENCES Locations(location_id) 
-         )`;
+         //    location_fk INT,
+         //    FOREIGN KEY (location_fk) REFERENCES Locations(location_id) 
+         // )`;
                
-         let q4 = `CREATE TABLE IF NOT EXISTS Orders (
-            order_id INT PRIMARY KEY,
-            user_fk INT,
-            product_fk INT,
-            location_fk INT,
-            FOREIGN KEY (user_fk) REFERENCES Users(user_id),
-            FOREIGN KEY (product_fk) REFERENCES Products(product_id),
-            FOREIGN KEY (location_fk) REFERENCES Locations(location_id);
-         )`;
+         let q4 = Orders.getCreateCommand(); //`CREATE TABLE IF NOT EXISTS Orders (
+         //    order_id INT PRIMARY KEY,
+         //    user_fk INT,
+         //    product_fk INT,
+         //    location_fk INT,
+         //    FOREIGN KEY (user_fk) REFERENCES Users(user_id),
+         //    FOREIGN KEY (product_fk) REFERENCES Products(product_id),
+         //    FOREIGN KEY (location_fk) REFERENCES Locations(location_id)
+         // )`;
 
          await client.query("BEGIN");
 

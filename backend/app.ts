@@ -21,11 +21,11 @@ import userRouter from "./routers/user"
 
 
 // const database_config = {
-//    user: "postgres",
+//    user: "mitesh",
 //    host: "localhost",
 //    database: "localdb",
 //    port: 5432,
-//    password: "Micky@123"
+//    password: "micky@123"
 // };
 // const client = new Client(database_config);
 
@@ -48,20 +48,27 @@ import userRouter from "./routers/user"
 // PostGreSQL Initialisation
 (
    async () => {
+      // await client.connect();
       await db.initialiseTables();
-      // let query = "SELECT * FROM Name";
+      let query = `SELECT * FROM Orders 
+      JOIN Users ON Users.user_id = user_fk
+      JOIN Locations ON Locations.location_id = location_fk
+      JOIN Products ON Products.product_id = product_fk;`
+
+      console.log(query);
       // let insertion_query = {
       //    text: "INSERT INTO Name VALUES($1, $2, $3, $4) RETURNING *;",
       //    values: [5, "Bewada", "Gujju", "Desai"]
       // }
-      
+      // let client = await db.getClient();
       // let parameters = ["first_name"];
       // let insertion_parameters = [4, "Kathan", "Gujju", "Desai"];
       
-      // client.query(q).then((results) => {
-      //    console.log(results);
-      //    console.log(results.rows[0]);
-      // }).catch(err => console.log(err.stack));
+      let results = await db.query(query);
+      console.log("Logging: ");
+      // console.log(results);
+      console.log(results.rows);
+      
    }
 )();
 
@@ -73,8 +80,9 @@ app.use(express.urlencoded({extended: true}));
 
 // Routers
 app.use("/product", productRouter);
-app.use("/user", )
+app.use("/user", userRouter);
 
+// Starting the server
 app.listen(serverPort, () => {
    logger.info("Server running on port: ", serverPort);
 });
