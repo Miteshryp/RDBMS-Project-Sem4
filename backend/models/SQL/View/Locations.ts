@@ -7,7 +7,7 @@ export default  {
    // Used to create table in one transaction during DB initialisation.
    getCreateCommand() {
       return `CREATE TABLE IF NOT EXISTS ${process.env.LOCATION_TABLE} ( 
-         location_id INT SERIAL PRIMARY KEY,
+         location_id SERIAL PRIMARY KEY,
          address_l1 VARCHAR(50) NOT NULL,
          address_l2 VARCHAR(30),
          address_l3 VARCHAR(30),
@@ -28,11 +28,11 @@ export default  {
       try {
          let location_insertion_query = `INSERT INTO ${process.env.LOCATION_TABLE}(address_l1, address_l2, address_l3, landmark, city, pincode) 
          VALUES(
-            ${locationData.address_l1},
-            ${locationData.address_l2}, 
-            ${locationData.address_l3}, 
-            ${locationData.landmark}, 
-            ${locationData.city}, 
+            '${locationData.address_l1}',
+            '${locationData.address_l2}', 
+            '${locationData.address_l3}', 
+            '${locationData.landmark}', 
+            '${locationData.city}', 
             ${locationData.pincode}
          ) RETURNING *;`;
 

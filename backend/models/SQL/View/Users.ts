@@ -28,9 +28,9 @@ export default {
 
   getCreateCommand() {
     return `CREATE TABLE IF NOT EXISTS ${process.env.USER_TABLE} (
-          user_id INT PRIMARY KEY SERIAL NOT NULL,
+          user_id SERIAL PRIMARY KEY NOT NULL,
           username VARCHAR(30) NOT NULL UNIQUE, 
-          password VARCHAR(50) NOT NULL, 
+          password VARCHAR(60) NOT NULL, 
       
           first_name VARCHAR(30) NOT NULL,
           middle_name VARCHAR(30),
@@ -83,7 +83,7 @@ export default {
               ? 
               `SELECT * FROM ${process.env.USER_TABLE} WHERE (user_id=${parameters.user_id})`
               : 
-              `SELECT * FROM ${process.env.USER_TABLE} WHERE (username=${parameters.username})`
+              `SELECT * FROM ${process.env.USER_TABLE} WHERE (username='${parameters.username}')`
             ;
 
     try {
@@ -107,7 +107,7 @@ export default {
   async insertUser(userData: {username: string, password: string, first_name: string, middle_name: string, last_name: string, dob: string}, location: {address_l1: string, address_l2: string, address_l3: string, landmark: string, city: string, pincode: number}) {
 
     // insert location
-    let location_insertion_response: QueryResult = await Locations.createLocation(location);
+    let location_insertion_response = await Locations.createLocation(location);
     if(!location_insertion_response) {
       logger.warn("Failed to insert location information.");
     }
@@ -116,14 +116,16 @@ export default {
 
     let user_insertion_query = `INSERT INTO Users(username, password, first_name, middle_name, last_name, dob, location_fk) 
               VALUES(
-                ${userData.username},
-                ${userData.password}, 
-                ${userData.first_name}, 
-                ${userData.middle_name}, 
-                ${userData.last_name}, 
-                ${userData.dob}, 
-                ${location_insertion_response ? location_insertion_response.rows[0].location_id : 'NULL'}
+                '${userData.username}',
+                '${userData.password}', 
+                '${userData.first_name}', 
+                 ${userData.middle_name ? `'${userData.middle_name}'` : 'NULL' }, 
+                '${userData.last_name}', 
+                '${userData.dob}', 
+                ${location_insertion_response ? location_insertion_response.location_id : 'NULL'}
             ) RETURNING *;`;
+    
+    logger.debug(user_insertion_query);
 
     try {
       let user_insertion_response: QueryResult = await db.query(user_insertion_query);
@@ -147,12 +149,12 @@ export default {
   async insertUserWithLocation(location_id: number, userData: any) {
     let user_insertion_query =  `INSERT INTO Users(username, password, first_name, middle_name, last_name, dob, location_fk) 
               VALUES(
-                ${userData.username},
-                ${userData.password}, 
-                ${userData.first_name}, 
-                ${userData.middle_name}, 
-                ${userData.last_name}, 
-                ${userData.dob}, 
+                '${userData.username}',
+                '${userData.password}', 
+                '${userData.first_name}', 
+                '${userData.middle_name}', 
+                '${userData.last_name}', 
+                '${userData.dob}', 
                 ${location_id}
               );`;
       

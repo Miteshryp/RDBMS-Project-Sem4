@@ -4,7 +4,7 @@ import db from "./../index"
 export default {
    getCreateCommand() {
       return `CREATE TABLE IF NOT EXISTS Orders (
-         order_id INT SERIAL PRIMARY KEY,
+         order_id SERIAL PRIMARY KEY,
          user_fk INT,
          product_fk INT,
          location_fk INT,

@@ -50,12 +50,12 @@ import userRouter from "./routers/user"
    async () => {
       // await client.connect();
       await db.initialiseTables();
-      let query = `SELECT * FROM Orders 
-      JOIN Users ON Users.user_id = user_fk
-      JOIN Locations ON Locations.location_id = location_fk
-      JOIN Products ON Products.product_id = product_fk;`
+      // let query = `SELECT * FROM Orders 
+      // JOIN Users ON Users.user_id = user_fk
+      // JOIN Locations ON Locations.location_id = location_fk
+      // JOIN Products ON Products.product_id = product_fk;`
 
-      console.log(query);
+      // console.log(query);
       // let insertion_query = {
       //    text: "INSERT INTO Name VALUES($1, $2, $3, $4) RETURNING *;",
       //    values: [5, "Bewada", "Gujju", "Desai"]
@@ -64,10 +64,10 @@ import userRouter from "./routers/user"
       // let parameters = ["first_name"];
       // let insertion_parameters = [4, "Kathan", "Gujju", "Desai"];
       
-      let results = await db.query(query);
-      console.log("Logging: ");
+      // let results = await db.query(query);
+      // console.log("Logging: ");
       // console.log(results);
-      console.log(results.rows);
+      // console.log(results.rows);
       
    }
 )();

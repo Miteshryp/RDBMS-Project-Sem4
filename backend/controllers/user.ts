@@ -38,7 +38,7 @@ export default {
       }
 
       // hashing the password.
-      let hashedPassword = bcrypt.hash(userData.password, Number(process.env.SALT_ROUNDS));
+      let hashedPassword = await bcrypt.hash(userData.password, Number(process.env.SALT_ROUNDS));
 
       // storing the user data in the database.
       let user = await Users.insertUser({
@@ -61,7 +61,7 @@ export default {
          dob: user.dob
       }, String(process.env.PAYLOAD_SECRET));
 
-      return serverResponse.success(res, "Signup Successful", {auth: true, complete: true, token});
+      return serverResponse.success(res, "Signup Successful", {auth: true, complete: true, payload: {token}});
    },
 
    async signin (req: Request, res: Response) {
@@ -91,7 +91,7 @@ export default {
          last_name: user.last_name
       }, String(process.env.PAYLOAD_SECRET));
 
-      return serverResponse.success(res, "Sign in successful", {auth: true, complete: true, token});
+      return serverResponse.success(res, "Sign in successful", {auth: true, complete: true, payload:{token}});
    }
 
 }
